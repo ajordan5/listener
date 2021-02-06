@@ -5,7 +5,6 @@ project(animated_box)
 # Find packages
 
 find_package(gazebo REQUIRED)
-find_package(pybind11 REQUIRED)
 
 list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
 
@@ -18,8 +17,5 @@ link_directories(${GAZEBO_LIBRARY_DIRS})
 add_executable(integrated_main integrated_main.cc)
 target_link_libraries(integrated_main ${GAZEBO_LIBRARIES} pthread)
 
-
 add_executable(independent_listener independent_listener.cc)
 target_link_libraries(independent_listener ${GAZEBO_LIBRARIES} pthread)
-
-add_executable(c2py c2py.cpp)
