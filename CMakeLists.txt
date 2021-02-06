@@ -10,7 +10,9 @@ include_directories(${GAZEBO_INCLUDE_DIRS})
 link_directories(${GAZEBO_LIBRARY_DIRS})  
 
 add_subdirectory(extern/pybind11)
-pybind11_add_module(bind_listener bind_listener.cpp)
+# pybind11_add_module(bind_listener bind_listener.cpp)
+pybind11_add_module(ilist independent_listener.cpp)
+target_link_libraries(ilist PUBLIC ${GAZEBO_LIBRARIES} pthread) 
 
-add_executable(independent_listener independent_listener.cpp)  
-target_link_libraries(independent_listener ${GAZEBO_LIBRARIES} pthread) 
+# add_executable(independent_listener independent_listener.cpp)  
+# target_link_libraries(independent_listener ${GAZEBO_LIBRARIES} pthread) 
