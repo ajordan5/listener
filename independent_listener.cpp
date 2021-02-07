@@ -21,6 +21,7 @@
 
 #include <iostream>
 #include <pybind11/pybind11.h>
+#include <pybind11/embed.h>
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -90,6 +91,16 @@ void posesStampedCallback(ConstPosesStampedPtr &posesStamped)
 /////////////////////////////////////////////////
 int main(int _argc, char **_argv)
 {
+  std::cout << "in main. \n";
+
+  py::scoped_interpreter python;
+
+  py::module_ sys = py::module_::import("sys");
+  sys.attr("path").attr("insert")(1,"../");
+
+  auto matt = py::module::import("matt");
+  matt.attr("print_it")();
+
   // Load gazebo
   gazebo::client::setup(_argc, _argv);
 
