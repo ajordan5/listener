@@ -6,9 +6,16 @@ import asyncio
 from mavsdk import System
 from mavsdk.follow_me import (Config, FollowMeError, TargetLocation)
 
+# import rospy
+
+# from geometry_msgs.msg import Point
+
 
 class FollowMe:
     async def initialize(self):
+        # print('before subscriber')
+        # self.boat_sub_ = rospy.Subscriber('boat_pos', Point, self.boatCallback, queue_size=5)
+        # print('after subscriber')
         self.default_height = 8.0 #in Meters
         self.follow_distance = 2.0 #in Meters, this is the distance that the drone will remain away from Target while following it 
         #Direction relative to the Target 
@@ -18,6 +25,13 @@ class FollowMe:
 
         #This list contains fake location coordinates (These coordinates are obtained from mission.py example)
         self.fake_location = [[47.398039859999997,8.5455725400000002],[47.398036222362471,8.5450146439425509],[47.397825620791885,8.5450092830163271]]
+
+    # async def boatCallback(self,msg):
+    #     print('in subscriber')
+    #     self.x = msg.x
+    #     self.y = msg.y
+    #     self.z = msg.z
+    #     print('self.x = ', self.x)
 
     async def fly_drone(self):
         drone = System()
