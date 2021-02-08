@@ -18,14 +18,12 @@
 
 Listener::Listener(int _argc, char **_argv)
 {
-  std::cout << "Listener constructor \n";
-
   py::scoped_interpreter python;
   py::module_ sys = py::module_::import("sys");
   sys.attr("path").attr("insert")(1,"../scripts");
 
   py::object Boat = py::module::import("boat").attr("Boat");
-  py::object boat = Boat();
+  boat_ = Boat();
 
   // Load gazebo
   gazebo::client::setup(_argc, _argv);
@@ -35,8 +33,8 @@ Listener::Listener(int _argc, char **_argv)
   node->Init();
 
   // Listen to Gazebo pose info topic
-  // gazebo::transport::SubscriberPtr sub =
-  // node->Subscribe("~/pose/info", Listener::posesStampedCallback);
+  posesSubscriber = node->Subscribe("~/pose/info", &Listener::posesStampedCallback, this);
+  // commandSubscriber = node->Subscribe("~/collision_map/command", &CollisionMapCreator::create, this);
 
   // Busy wait loop...replace with your own code as needed.
   while (true)
@@ -46,34 +44,34 @@ Listener::Listener(int _argc, char **_argv)
   gazebo::client::shutdown();
 }
 
-// void Listener::posesStampedCallback(ConstPosesStampedPtr &posesStamped)
-// {
-//   std::cout << "in callback \n";
-//   // auto boat = py::module::import("boat");
-//   // boat.attr("Boat");
-//   // boat.attr("print_it")();
-//   // std::cout << posesStamped->DebugString();
+void Listener::posesStampedCallback(ConstPosesStampedPtr &posesStamped)
+{
+  boat_.attr("update")(1.0,3.4,-2.3);
+  // auto boat = py::module::import("boat");
+  // boat.attr("Boat");
+  // boat.attr("print_it")();
+  // std::cout << posesStamped->DebugString();
 
-//   // ::google::protobuf::int32 sec = posesStamped->time().sec();
-//   // ::google::protobuf::int32 nsec = posesStamped->time().nsec();
-//   // std::cout << "Read time: sec: " << sec << " nsec: " << nsec << std::endl;
+  // ::google::protobuf::int32 sec = posesStamped->time().sec();
+  // ::google::protobuf::int32 nsec = posesStamped->time().nsec();
+  // std::cout << "Read time: sec: " << sec << " nsec: " << nsec << std::endl;
 
-//   // for (int i =0; i < posesStamped->pose_size(); ++i)
-//   // {
-//   //   const ::gazebo::msgs::Pose &pose = posesStamped->pose(i);
-//   //   std::string name = pose.name();
-//   //   if (name == std::string("box"))
-//   //   {
-//   //     const ::gazebo::msgs::Vector3d &position = pose.position();
+  // for (int i =0; i < posesStamped->pose_size(); ++i)
+  // {
+  //   const ::gazebo::msgs::Pose &pose = posesStamped->pose(i);
+  //   std::string name = pose.name();
+  //   if (name == std::string("box"))
+  //   {
+  //     const ::gazebo::msgs::Vector3d &position = pose.position();
 
-//   //     double x = position.x();
-//   //     double y = position.y();
-//   //     double z = position.z();
+  //     double x = position.x();
+  //     double y = position.y();
+  //     double z = position.z();
 
-//   //     std::cout << "Read position: x: " << x
-//   //         << " y: " << y << " z: " << z << std::endl;
-//   //   }
-//   // }
-// }
+  //     std::cout << "Read position: x: " << x
+  //         << " y: " << y << " z: " << z << std::endl;
+  //   }
+  // }
+}
 
 
