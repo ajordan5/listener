@@ -10,3 +10,4 @@ class Boat():
         self.boat_odom[1] = y
         self.boat_odom[2] = z
         print('boat odom = ', self.boat_odom)
+
