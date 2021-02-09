@@ -19,8 +19,8 @@
 Listener::Listener(int _argc, char **_argv)
 {
   py::scoped_interpreter python;
-  py::module_ sys = py::module_::import("sys");
-  sys.attr("path").attr("insert")(1,"../scripts");
+  // py::module_ sys = py::module_::import("sys");
+  // sys.attr("path").attr("insert")(1,"../scripts");
 
   py::object Boat = py::module::import("boat").attr("Boat");
   boat_ = Boat();
@@ -35,13 +35,18 @@ Listener::Listener(int _argc, char **_argv)
   // Listen to Gazebo pose info topic
   posesSubscriber = node->Subscribe("~/pose/info", &Listener::posesStampedCallback, this);
   // commandSubscriber = node->Subscribe("~/collision_map/command", &CollisionMapCreator::create, this);
-
-  // Busy wait loop...replace with your own code as needed.
+  
+  // // Busy wait loop...replace with your own code as needed.
   while (true)
     gazebo::common::Time::MSleep(10);
 
+  py::finalize_interpreter();
   // Make sure to shut everything down.
   gazebo::client::shutdown();
+}
+
+Listener::~Listener()
+{
 }
 
 void Listener::posesStampedCallback(ConstPosesStampedPtr &posesStamped)
