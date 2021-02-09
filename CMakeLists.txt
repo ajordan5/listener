@@ -11,11 +11,11 @@ link_directories(${GAZEBO_LIBRARY_DIRS})
 
 add_subdirectory(extern/pybind11)
 
-add_executable(listener_node listener_node.cpp)
+add_executable(listener_node src/listener_node.cpp)
 target_link_libraries(listener_node PRIVATE pybind11::embed ${GAZEBO_LIBRARIES} listener)
 
 add_library(listener
-    listener.cpp
-    listener.h
+    src/listener.cpp
+    src/listener.h
     )  
 target_link_libraries(listener PRIVATE pybind11::embed ${GAZEBO_LIBRARIES} pthread) 

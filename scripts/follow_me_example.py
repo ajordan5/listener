@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-#This example shows how to use the follow me plugin
-
 import asyncio
 from mavsdk import System
 from mavsdk.follow_me import (Config, FollowMeError, TargetLocation)
@@ -23,14 +21,8 @@ class FollowMe:
         self.responsiveness =  0.02
         self.ref_lla = Point()
 
-        #This list contains fake location coordinates (These coordinates are obtained from mission.py example)
-        self.fake_location = [[47.398039859999997,8.5455725400000002],[47.398036222362471,8.5450146439425509],[47.397825620791885,8.5450092830163271]]
-
-
     def boatCallback(self,msg):
         self.boat_lla = [msg.x,msg.y,msg.z]
-        # self.update_target()
-        # print('boat lla = ', self.boat_lla)
 
     def publish_ref(self,ref_lat_deg,ref_lon_deg,ref_alt_asl_m):
         self.ref_lla.x = ref_lat_deg
@@ -38,13 +30,6 @@ class FollowMe:
         self.ref_lla.z = ref_alt_asl_m
         print('ref lla = ', [ref_lat_deg,ref_lon_deg,ref_alt_asl_m])
         self.ref_pub_.publish(self.ref_lla)
-
-    # async def update_target(self):
-    #     # for latitude,longitude in self.fake_location:
-    #     target = TargetLocation(self.boat_lla[0], self.boat_lla[1], 0, 0, 0, 0)
-    #     print ("-- Following Target")
-    #     await self.drone.follow_me.set_target_location(target)
-        # await asyncio.sleep(2)
 
     async def fly_drone(self):
         print('in fly drone')
@@ -87,13 +72,6 @@ class FollowMe:
         await self.drone.follow_me.start()
         await asyncio.sleep(8)
 
-        # This for loop provides fake coordinates from the fake_location list for the follow me mode to work
-        # In a simulator it won't make much sense though
-        # for latitude,longitude in self.fake_location:
-        #     target = TargetLocation(latitude, longitude, 0, 0, 0, 0)
-        #     print ("-- Following Target")
-        #     await self.drone.follow_me.set_target_location(target)
-        #     await asyncio.sleep(2)
         while True:
             target = TargetLocation(self.boat_lla[0], self.boat_lla[1], 0, 0, 0, 0)
             await self.drone.follow_me.set_target_location(target)

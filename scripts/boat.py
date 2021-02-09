@@ -7,7 +7,6 @@ from geometry_msgs.msg import Point
 class Boat():
     def __init__(self):
         print('init boat')
-        
         self.lla = Point()
         self.ref_lla_set = False
         rospy.init_node('boat', anonymous=True)
@@ -17,13 +16,12 @@ class Boat():
 
 
     def setRefCallback(self,msg):
-        print("in set ref callback")
+        print("ref lla set")
         self.ref_lla = [msg.x,msg.y,msg.z]
         self.ref_lla_set = True
 
     def update(self,x,y,z):
         if self.ref_lla_set:
-            print("in update if statement")
             ned = [y,x,z]
             navpyLla = navpy.ned2lla(ned,self.ref_lla[0],self.ref_lla[1],self.ref_lla[2])
             self.lla.x = navpyLla[0]

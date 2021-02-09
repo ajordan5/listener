@@ -22,7 +22,6 @@ public:
     gazebo::transport::SubscriberPtr posesSubscriber;
     void posesStampedCallback(ConstPosesStampedPtr &posesStamped);
     py::object boat_;
-    // Listener::posesStampedCallback(ConstPosesStampedPtr &posesStamped);
 };
 
 #endif
