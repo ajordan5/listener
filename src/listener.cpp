@@ -58,6 +58,14 @@ void Listener::posesStampedCallback(ConstPosesStampedPtr &posesStamped)
 
       boat_.attr("update")(position.x(),position.y(),position.z());
     }
+    if (name == std::string("iris") && !roverStartPositionSet_)
+    {
+      const ::gazebo::msgs::Vector3d &position = pose.position();
+
+      boat_.attr("set_rover_start_position")(position.x(),position.y(),position.z());
+
+      roverStartPositionSet_ = true;
+    }
   }
 }
 

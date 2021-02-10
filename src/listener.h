@@ -22,6 +22,8 @@ public:
     gazebo::transport::SubscriberPtr posesSubscriber;
     void posesStampedCallback(ConstPosesStampedPtr &posesStamped);
     py::object boat_;
+
+    bool roverStartPositionSet_{false};
 };
 
 #endif
