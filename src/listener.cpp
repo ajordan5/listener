@@ -22,6 +22,8 @@ Listener::Listener(int _argc, char **_argv)
 
   py::object Boat = py::module::import("boat").attr("Boat");
   boat_ = Boat();
+  py::object Rover = py::module::import("rover").attr("Rover");
+  rover_ = Rover();
 
   // Load gazebo
   gazebo::client::setup(_argc, _argv);
@@ -55,16 +57,14 @@ void Listener::posesStampedCallback(ConstPosesStampedPtr &posesStamped)
     if (name == std::string("box"))
     {
       const ::gazebo::msgs::Vector3d &position = pose.position();
-
-      boat_.attr("update")(position.x(),position.y(),position.z());
+      const ::gazebo::msgs::Quaternion &orientation = pose.orientation();
+      boat_.attr("update")(position.x(),position.y(),position.z(),orientation.x(),orientation.y(),orientation.z(),orientation.w());
     }
-    if (name == std::string("iris") && !roverStartPositionSet_)
+    if (name == std::string("iris"))
     {
       const ::gazebo::msgs::Vector3d &position = pose.position();
-
-      boat_.attr("set_rover_start_position")(position.x(),position.y(),position.z());
-
-      roverStartPositionSet_ = true;
+      const ::gazebo::msgs::Quaternion &orientation = pose.orientation();
+      rover_.attr("update")(position.x(),position.y(),position.z(),orientation.x(),orientation.y(),orientation.z(),orientation.w());
     }
   }
 }
