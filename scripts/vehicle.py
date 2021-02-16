@@ -8,9 +8,9 @@ class Vehicle():
 
     def update(self,x,y,z,qx,qy,qz,qw):
         self.poseMsg.header.stamp = rospy.Time.now()
-        self.poseMsg.pose.position.x = y
+        self.poseMsg.pose.position.x = y #convert from ENU fram to NED
         self.poseMsg.pose.position.y = x
-        self.poseMsg.pose.position.z = z
+        self.poseMsg.pose.position.z = -z
         self.poseMsg.pose.orientation.x = qx
         self.poseMsg.pose.orientation.y = qy
         self.poseMsg.pose.orientation.z = qz
