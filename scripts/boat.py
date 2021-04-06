@@ -6,7 +6,7 @@ class Boat(Vehicle):
     def __init__(self):
         super().__init__()
         # rospy.init_node('vehicles', anonymous=True) #This must be done in one and only one of Rover or Boat
-        self.pose_pub_ = rospy.Publisher('base_pose', PoseStamped, queue_size=5, latch=True)
+        self.pose_pub_ = rospy.Publisher('gazebo_base_pose', PoseStamped, queue_size=5, latch=True)
 
     def publish_pose(self):
         self.pose_pub_.publish(self.poseMsg)
