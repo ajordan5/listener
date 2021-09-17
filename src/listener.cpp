@@ -33,7 +33,8 @@ Listener::Listener(int _argc, char **_argv)
   node->Init();
 
   // Listen to Gazebo pose info topic
-  posesSubscriber = node->Subscribe("~/pose/info", &Listener::posesStampedCallback, this);
+  //posesSubscriber = node->Subscribe("~/pose/info", &Listener::posesStampedCallback, this);
+  gazebo::transport::SubscriberPtr sub = node->Subscribe("~/pose/info", &Listener::posesStampedCallback, this);
   
   // // Busy wait loop...replace with your own code as needed.
   while (true)

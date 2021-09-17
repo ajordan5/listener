@@ -19,7 +19,7 @@ class Listener
 public:
     Listener(int _argc, char **_argv);
     ~Listener();
-    gazebo::transport::SubscriberPtr posesSubscriber;
+    gazebo::transport::SubscriberPtr sub;//posesSubscriber;
     void posesStampedCallback(ConstPosesStampedPtr &posesStamped);
     py::object boat_;
     py::object rover_;
